@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="modes">
+        <item>Select mode</item>
+        <item>Catégories</item>
+        <item>Sources</item>
+        <item>Pays</item>
+    </string-array>
+</resources>
