@@ -9,12 +9,13 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.dev.materialspinner.MaterialSpinner
 import com.example.news.R
 
 class FilterFragment : Fragment() {
 
     private lateinit var adapter: ArrayAdapter<String>
-    private lateinit var spinner: Spinner
+    private lateinit var spinner: MaterialSpinner
     private lateinit var modes: Array<String>
 
     override fun onCreateView(
@@ -29,15 +30,16 @@ class FilterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         modes = resources.getStringArray(R.array.modes)
-        spinner = view.findViewById(R.id.mode_spinner)
-
-        adapter = ArrayAdapter(view.context, android.R.layout.simple_spinner_item, modes)
-
-        spinner.adapter = adapter
+        spinner = view.findViewById(R.id.material_spinner)
 
         val baseContext = view.context
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        adapter = ArrayAdapter(baseContext, android.R.layout.simple_spinner_item, modes)
+        spinner.setAdapter(adapter)
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinner.getSpinner().onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 Toast.makeText(baseContext, "Vous n'avez rien selectionné", Toast.LENGTH_LONG).show()
             }
@@ -45,6 +47,10 @@ class FilterFragment : Fragment() {
                 Toast.makeText(baseContext, "Vous avez selectionné ${modes[position]}", Toast.LENGTH_LONG).show()
             }
         }
+
+        spinner.setError("Please select Country")
+        spinner.setLabel("Country")
+        spinner.setErrorEnabled(false)
     }
 
     private fun bindModeRecyclerView() {
