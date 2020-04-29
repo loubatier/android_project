@@ -1,5 +1,6 @@
 package com.example.news.fragments
 
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,14 +11,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.network.repositories.Articlepository
 import com.example.news.R
 import com.example.news.adapters.ArticleAdapter
-import com.example.news.models.Article
+import com.example.news.models.ModeType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ArticlesFragment : Fragment() {
+    private val repository = Articlepository()
 
     private lateinit var adapter: ArticleAdapter
     private lateinit var recyclerView: RecyclerView
@@ -27,13 +30,19 @@ class ArticlesFragment : Fragment() {
     private val query: String by lazy {
         arguments?.getString(ARGS_QUERY) ?: ""
     }
+    private val type: ModeType by lazy {
+        arguments?.getParcelable(ARGS_TYPE) ?: ModeType.CATEGORY
+    }
 
     companion object {
         const val ARGS_QUERY = "ARGS_QUERY"
-        fun newInstance(query: String):ArticlesFragment {
+        const val ARGS_TYPE = "ARGS_TYPE"
+        fun newInstance(type:ModeType,query: String):ArticlesFragment {
             return ArticlesFragment().apply {
 
-                arguments = bundleOf(ARGS_QUERY to query)
+                arguments = bundleOf(
+                    ARGS_QUERY to query,
+                    ARGS_TYPE to type)
 
             }
         }
@@ -57,12 +66,24 @@ class ArticlesFragment : Fragment() {
 
     private suspend fun getData() {
         withContext(Dispatchers.IO) {
-            // val result = repository.list(query)
-            // bindData(result)
+            var result = repository.list(query)
+
+            when(type){
+                ModeType.CATEGORY -> {
+                    result = repository.list(query)
+                }
+                ModeType.COUNTRY -> {
+                    result = repository.countryList(query)
+                }
+                ModeType.SOURCE -> {
+                    result = repository.sourceList(query)
+                }
+            }
+            bindData(result)
         }
     }
 
-    private suspend fun bindData(result: List<Article>) {
+    private suspend fun bindData(result: List<com.example.network.models.Article>) {
         withContext(Dispatchers.Main) {
             //afficher les données dans le recycler
 
