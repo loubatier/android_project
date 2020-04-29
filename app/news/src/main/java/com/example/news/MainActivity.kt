@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.example.news.fragments.FilterFragment
+import com.example.news.fragments.ModesFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val fragment = FilterFragment()
+        val fragment = ModesFragment()
 
         change(fragment)
     }
