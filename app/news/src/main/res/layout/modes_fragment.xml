@@ -14,7 +14,7 @@
     />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/submode_recycler_view"
+        android:id="@+id/submodes_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/submode_recycler_item"

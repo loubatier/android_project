@@ -54,13 +54,12 @@ class ModesFragment : Fragment() {
         setupModesSpinner()
 
         // ---------- SETUP RECYCLER DES SUBMODES
-        recycler = view.findViewById(R.id.submode_recycler_view)
-        bindSubmodeRecyclerView()
-
+        recycler = view.findViewById(R.id.submodes_recycler_view)
+        bindSubmodesRecyclerView()
 
     }
 
-    private fun bindSubmodeRecyclerView() {
+    private fun bindSubmodesRecyclerView() {
         submodeAdapter = SubmodeAdapter(submodes) {
             activity?.change(ArticlesFragment.newInstance(it.queryUrl))
         }

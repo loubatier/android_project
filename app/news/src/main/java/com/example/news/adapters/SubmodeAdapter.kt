@@ -15,14 +15,17 @@ class SubmodeAdapter (
     RecyclerView.Adapter<SubmodeAdapter.ViewHolder>() {
 
     inner class ViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
+
         fun bind(item: Submode) {
             root.setOnClickListener {
                 callback(item)
             }
+
             val submodeName = root.findViewById<TextView>(R.id.submode_name)
 
             submodeName.text = item.name
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
