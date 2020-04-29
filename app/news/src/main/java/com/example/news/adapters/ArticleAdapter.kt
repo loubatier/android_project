@@ -8,14 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.news.R
-import com.example.news.models.Article
 
-class ArticleAdapter (
-    private val dataset: List<Article>)
+class ArticleAdapter(
+    private val dataset: List<com.example.network.models.Article>
+)
     : RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
 
     class ViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
-        fun bind(item: Article) {
+        fun bind(item: com.example.network.models.Article) {
 
             val artTitle = root.findViewById<TextView>(R.id.article_title)
             val artDesc = root.findViewById<TextView>(R.id.article_description)

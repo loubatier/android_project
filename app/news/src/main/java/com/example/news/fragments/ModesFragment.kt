@@ -15,6 +15,7 @@ import com.dev.materialspinner.MaterialSpinner
 import com.example.news.R
 import com.example.news.adapters.SubmodeAdapter
 import com.example.news.change
+import com.example.news.models.ModeType
 import com.example.news.models.Submode
 
 class ModesFragment : Fragment() {
@@ -29,10 +30,27 @@ class ModesFragment : Fragment() {
     private lateinit var baseContext: Context
 
     private val submodes = listOf(
-        Submode("submode1","yikes"),
-        Submode("submode2","yikes"),
-        Submode("submode3","yikes"),
-        Submode("submode4","yikes")
+        listOf(
+            Submode("business",ModeType.CATEGORY,"business"),
+            Submode("entertainment",ModeType.CATEGORY,"entertainment"),
+            Submode("general",ModeType.CATEGORY,"general"),
+            Submode("health",ModeType.CATEGORY,"health"),
+            Submode("science",ModeType.CATEGORY,"science"),
+            Submode("sports",ModeType.CATEGORY,"sports"),
+            Submode("technology",ModeType.CATEGORY,"technology")
+        ),
+        listOf(
+            //TODO : construire le tableau a partir des sources récupérées en ligne
+            Submode("source1",ModeType.SOURCE,"yikes"),
+            Submode("source2",ModeType.SOURCE,"yikes"),
+            Submode("source3",ModeType.SOURCE,"yikes"),
+            Submode("source4",ModeType.SOURCE,"yikes")),
+        listOf(
+            Submode("france",ModeType.COUNTRY,"fr"),
+            Submode("United States",ModeType.COUNTRY,"us"),
+            Submode("South korea",ModeType.COUNTRY,"kr"),
+            Submode("Portugal",ModeType.COUNTRY,"pt"))
+
     )
 
     override fun onCreateView(
@@ -55,14 +73,14 @@ class ModesFragment : Fragment() {
 
         // ---------- SETUP RECYCLER DES SUBMODES
         recycler = view.findViewById(R.id.submode_recycler_view)
-        bindSubmodeRecyclerView()
+
 
 
     }
 
-    private fun bindSubmodeRecyclerView() {
+    private fun bindSubmodeRecyclerView(submodes: List<Submode>) {
         submodeAdapter = SubmodeAdapter(submodes) {
-            activity?.change(ArticlesFragment.newInstance(it.queryUrl))
+            activity?.change(ArticlesFragment.newInstance(it.type, it.queryUrl))
         }
 
         recycler.layoutManager = LinearLayoutManager(context)
@@ -79,7 +97,11 @@ class ModesFragment : Fragment() {
                 Toast.makeText(baseContext, "Vous n'avez rien selectionné", Toast.LENGTH_LONG).show()
             }
             override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Toast.makeText(baseContext, "Vous avez selectionné ${modes[position]}", Toast.LENGTH_LONG).show()
+                if (position != 0){
+                    //Toast.makeText(baseContext, "Vous avez selectionné ${modes[position]}", Toast.LENGTH_LONG).show()
+                    bindSubmodeRecyclerView(submodes[position - 1])
+                }
+
             }
         }
 
