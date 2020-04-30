@@ -10,7 +10,7 @@ interface ArticleService {
     @GET("/v2/top-headlines")
     fun list(@Query("category") query: String): Call<ArticleResult>
     @GET("/v2/top-headlines")
-    fun sourceList(@Query("source") query: String): Call<ArticleResult>
+    fun sourceList(@Query("sources") query: String): Call<ArticleResult>
     @GET("/v2/top-headlines")
     fun countryList(@Query("country") query: String): Call<ArticleResult>
 }

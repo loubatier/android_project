@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.materialspinner.MaterialSpinner
@@ -23,6 +24,7 @@ import com.example.news.change
 import com.example.news.models.ModeType
 import com.example.news.models.Submode
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ModesFragment : Fragment() {
@@ -47,6 +49,9 @@ class ModesFragment : Fragment() {
             Submode("Sciences", ModeType.CATEGORY, "https://lh3.googleusercontent.com/proxy/zTe_qSimYK7Qx-u9To2erPS0WH50zrXBvQtT-2Bgyn8hdX4kQXtyepMYLVttyEr2nfSs72lqPJATNvxhcHWYDw", "science"),
             Submode("Sport", ModeType.CATEGORY, "https://www.arcueil.fr/wp-content/uploads/2018/04/sports-arcueil.jpg", "sports"),
             Submode("Technologie", ModeType.CATEGORY, "https://airbus-h.assetsadobe2.com/is/image/content/dam/corporate-topics/innovation/Innovation-future-technology.jpg?wid=1920&fit=fit,1&qlt=85,0", "technology")
+        ),
+        listOf(
+
         ),
         listOf(
             Submode("France", ModeType.COUNTRY,"", "fr"),
@@ -80,6 +85,14 @@ class ModesFragment : Fragment() {
 
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        lifecycleScope.launch {
+            getData()
+        }
+    }
+
     // ------------------------- RETRIEVE SOURCE LIST
 
     private suspend fun getData() {
@@ -96,8 +109,8 @@ class ModesFragment : Fragment() {
             result.forEach {
                 sourceList.add(Submode(it.name,ModeType.SOURCE,"",it.id))
             }
-            submodes.add(sourceList)
-            Log.d("Articles", result.toString())
+            submodes.set(1, sourceList)
+            Log.d("Sources", submodes.toString())
         }
     }
 
