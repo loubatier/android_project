@@ -54,10 +54,10 @@ class ModesFragment : Fragment() {
 
         ),
         listOf(
-            Submode("France", ModeType.COUNTRY,"", "fr"),
-            Submode("États-Unis", ModeType.COUNTRY,"", "us"),
-            Submode("Corée du Sud", ModeType.COUNTRY,"", "kr"),
-            Submode("Portugal", ModeType.COUNTRY,"", "pt")
+            Submode("France", ModeType.COUNTRY,"https://www.sortiraparis.com/images/80/1467/548346-coronavirus-le-point-sur-la-situation-en-france-ce-jeudi-19-mars.jpg", "fr"),
+            Submode("États-Unis", ModeType.COUNTRY,"https://www.cartefinancement.com/wp-content/uploads/2019/05/non-residents-aux-etats-unis-ce-quil-faut-savoir-sur-la-fiscalite-immobiliere-1-1024x688.jpg", "us"),
+            Submode("Corée du Sud", ModeType.COUNTRY,"https://geo.img.pmdstatic.net/fit/http.3A.2F.2Fprd2-bone-image.2Es3-website-eu-west-1.2Eamazonaws.2Ecom.2Fgeo.2F2019.2F04.2F30.2Fb974d9c9-f2a5-453e-8cc7-635ce0bdef27.2Ejpeg/1120x630/background-color/ffffff/quality/90/coree-du-sud-nos-conseils-pratiques.jpg", "kr"),
+            Submode("Portugal", ModeType.COUNTRY,"https://img-4.linternaute.com/o7wmqKffXpCl3CSTB2w5bvphWTQ=/1080x/smart/bc8297cd38f644ad9be3acfb4686a11a/ccmcms-linternaute/11011328.jpg", "pt")
         )
 
     )
@@ -104,10 +104,12 @@ class ModesFragment : Fragment() {
 
     private suspend fun bindData(result: List<com.example.network.models.Source>) {
         withContext(Dispatchers.Main) {
-            //afficher les données dans le recycler
+
             var sourceList:MutableList<com.example.news.models.Submode> = mutableListOf()
             result.forEach {
-                sourceList.add(Submode(it.name,ModeType.SOURCE,"",it.id))
+
+                // CHEMIN DE L'IMAGE EN DUR CAR PAS PRÉSENT DANS L'OBJET SOURCE DE L'API
+                sourceList.add(Submode(it.name,ModeType.SOURCE,"https://academiesciencesmoralesetpolitiques.files.wordpress.com/2018/08/s11.jpg",it.id))
             }
             submodes.set(1, sourceList)
             Log.d("Sources", submodes.toString())
