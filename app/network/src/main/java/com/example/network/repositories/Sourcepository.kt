@@ -1,9 +1,9 @@
 package com.example.network.repositories
 
 import android.os.Build
-import android.util.Config.DEBUG
 import com.example.network.models.Article
-import com.example.network.services.ArticleService
+import com.example.network.models.Source
+import com.example.network.services.SourceService
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -14,8 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class Articlepository {
-    private val service: ArticleService
+class Sourcepository {
+    private val service: SourceService
     private val requestInterceptor: Interceptor = Interceptor { chain ->
         val original: Request = chain.request()
 
@@ -58,19 +58,11 @@ class Articlepository {
             .build()
 
 
-        service = retrofit.create(ArticleService::class.java)
+        service = retrofit.create(SourceService::class.java)
     }
 
-    fun list(query:String): List<Article> {
-        val response = service.list(query).execute()
-        return response.body()?.articles ?: emptyList()
-    }
-    fun countryList(query:String): List<Article> {
-        val response = service.countryList(query).execute()
-        return response.body()?.articles ?: emptyList()
-    }
-    fun sourceList(query:String): List<Article> {
-        val response = service.sourceList(query).execute()
-        return response.body()?.articles ?: emptyList()
+    fun list(): List<Source> {
+        val response = service.list().execute()
+        return response.body()?.sources ?: emptyList()
     }
 }

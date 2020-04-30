@@ -16,6 +16,12 @@ data class Source(
     val name: String
 )
 
+data class SourceResult (
+    val status:String,
+    val totalResults:Int,
+    val sources:List<Source>
+)
+
 data class ArticleResult(
     val status:String,
     val totalResults:Int,

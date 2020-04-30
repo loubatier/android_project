@@ -1,5 +1,7 @@
 package com.example.news.adapters
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,15 +9,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.network.models.Article
 import com.example.news.R
 
 class ArticleAdapter(
-    private val dataset: List<com.example.network.models.Article>
+    private val dataset: List<com.example.network.models.Article>,
+    private val callback: (article: Article) -> Unit
 )
     : RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
 
-    class ViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
+    inner class ViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
+
         fun bind(item: com.example.network.models.Article) {
+            root.setOnClickListener {
+                callback(item)
+            }
 
             val artTitle = root.findViewById<TextView>(R.id.article_title)
             val artDesc = root.findViewById<TextView>(R.id.article_description)
@@ -27,6 +35,8 @@ class ArticleAdapter(
 
         }
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 

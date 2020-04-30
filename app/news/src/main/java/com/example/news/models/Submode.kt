@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 data class Submode (
     val name: String,
     val type:ModeType,
+    val imageUrl: String,
     val queryUrl:String
 )
 

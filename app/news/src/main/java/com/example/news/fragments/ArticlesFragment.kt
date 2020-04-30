@@ -1,6 +1,7 @@
 package com.example.news.fragments
 
-
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,8 +26,6 @@ class ArticlesFragment : Fragment() {
     private lateinit var adapter: ArticleAdapter
     private lateinit var recyclerView: RecyclerView
 
-    // private val repository = Articlepository()
-
     private val query: String by lazy {
         arguments?.getString(ARGS_QUERY) ?: ""
     }
@@ -37,6 +36,7 @@ class ArticlesFragment : Fragment() {
     companion object {
         const val ARGS_QUERY = "ARGS_QUERY"
         const val ARGS_TYPE = "ARGS_TYPE"
+
         fun newInstance(type:ModeType,query: String):ArticlesFragment {
             return ArticlesFragment().apply {
 
@@ -63,6 +63,8 @@ class ArticlesFragment : Fragment() {
             getData()
         }
     }
+
+    // ------------------------- RETRIEVE ARTICLE LIST
 
     private suspend fun getData() {
         withContext(Dispatchers.IO) {
@@ -91,7 +93,11 @@ class ArticlesFragment : Fragment() {
 
             recyclerView = activity!!.findViewById<RecyclerView>(R.id.articles_recycler_view)
 
-            adapter = ArticleAdapter(result)
+            adapter = ArticleAdapter(result) {
+                val intent = Intent(android.content.Intent.ACTION_VIEW)
+                intent.data = Uri.parse(it.url)
+                startActivity(intent)
+            }
 
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter
