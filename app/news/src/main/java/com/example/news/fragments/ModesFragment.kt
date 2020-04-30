@@ -38,7 +38,7 @@ class ModesFragment : Fragment() {
 
     private val sourceRepository = Sourcepository()
 
-    private val submodes = listOf(
+    private val submodes = mutableListOf(
         listOf(
             Submode("Affaires", ModeType.CATEGORY, "https://www.martinjutras.com/images/pourquoi-faire-affaire-avec-moi.jpg", "business"),
             Submode("Divertissement", ModeType.CATEGORY, "https://www.hollydays.fr/wp-content/uploads/2019/09/distance-tv-canape-e1567513422653.jpg", "entertainment"),
@@ -49,17 +49,10 @@ class ModesFragment : Fragment() {
             Submode("Technologie", ModeType.CATEGORY, "https://airbus-h.assetsadobe2.com/is/image/content/dam/corporate-topics/innovation/Innovation-future-technology.jpg?wid=1920&fit=fit,1&qlt=85,0", "technology")
         ),
         listOf(
-            //TODO : construire le tableau a partir des sources récupérées en ligne
-            Submode("source1", ModeType.SOURCE,"yikes", ""),
-            Submode("source2", ModeType.SOURCE,"yikes", ""),
-            Submode("source3", ModeType.SOURCE,"yikes", ""),
-            Submode("source4", ModeType.SOURCE,"yikes", "")
-        ),
-        listOf(
-            Submode("France", ModeType.COUNTRY,"fr", ""),
-            Submode("États-Unis", ModeType.COUNTRY,"us", ""),
-            Submode("Corée du Sud", ModeType.COUNTRY,"kr", ""),
-            Submode("Portugal", ModeType.COUNTRY,"pt", "")
+            Submode("France", ModeType.COUNTRY,"", "fr"),
+            Submode("États-Unis", ModeType.COUNTRY,"", "us"),
+            Submode("Corée du Sud", ModeType.COUNTRY,"", "kr"),
+            Submode("Portugal", ModeType.COUNTRY,"", "pt")
         )
 
     )
@@ -92,7 +85,6 @@ class ModesFragment : Fragment() {
     private suspend fun getData() {
         withContext(Dispatchers.IO) {
             var result = sourceRepository.list()
-
             bindData(result)
         }
     }
@@ -100,6 +92,11 @@ class ModesFragment : Fragment() {
     private suspend fun bindData(result: List<com.example.network.models.Source>) {
         withContext(Dispatchers.Main) {
             //afficher les données dans le recycler
+            var sourceList:MutableList<com.example.news.models.Submode> = mutableListOf()
+            result.forEach {
+                sourceList.add(Submode(it.name,ModeType.SOURCE,"",it.id))
+            }
+            submodes.add(sourceList)
             Log.d("Articles", result.toString())
         }
     }
