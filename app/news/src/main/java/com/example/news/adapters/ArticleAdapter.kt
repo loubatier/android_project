@@ -5,8 +5,10 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ShareCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.network.models.Article
@@ -28,6 +30,15 @@ class ArticleAdapter(
             val artTitle = root.findViewById<TextView>(R.id.article_title)
             val artDesc = root.findViewById<TextView>(R.id.article_description)
             val artImage = root.findViewById<ImageView>(R.id.article_image)
+            val artButton = root.findViewById<Button>(R.id.article_button)
+
+            /*artButton.setOnClickListener {
+                ShareCompat.IntentBuilder.from(root.)
+                    .setType("text/plain")
+                    .setChooserTitle("Share URL")
+                    .setText(item.url)
+                    .startChooser();
+            }*/
 
             artTitle.text = item.title
             artDesc.text = item.description
