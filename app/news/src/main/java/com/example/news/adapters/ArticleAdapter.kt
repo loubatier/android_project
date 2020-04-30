@@ -1,5 +1,6 @@
 package com.example.news.adapters
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -9,22 +10,24 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ShareCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.network.models.Article
+import com.example.news.MainActivity
 import com.example.news.R
 
 class ArticleAdapter(
-    private val dataset: List<com.example.network.models.Article>,
-    private val callback: (article: Article) -> Unit
+    private val dataset: List<Article>,
+    private val callback: (article: Article, share: Boolean) -> Unit
 )
     : RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
 
     inner class ViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
 
-        fun bind(item: com.example.network.models.Article) {
+        fun bind(item: Article) {
             root.setOnClickListener {
-                callback(item)
+                callback(item, false)
             }
 
             val artTitle = root.findViewById<TextView>(R.id.article_title)
@@ -32,13 +35,9 @@ class ArticleAdapter(
             val artImage = root.findViewById<ImageView>(R.id.article_image)
             val artButton = root.findViewById<Button>(R.id.article_button)
 
-            /*artButton.setOnClickListener {
-                ShareCompat.IntentBuilder.from(root.)
-                    .setType("text/plain")
-                    .setChooserTitle("Share URL")
-                    .setText(item.url)
-                    .startChooser();
-            }*/
+            artButton.setOnClickListener {
+                callback(item, true)
+            }
 
             artTitle.text = item.title
             artDesc.text = item.description
@@ -46,8 +45,6 @@ class ArticleAdapter(
 
         }
     }
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 

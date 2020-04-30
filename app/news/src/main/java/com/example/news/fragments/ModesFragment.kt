@@ -99,7 +99,6 @@ class ModesFragment : Fragment() {
 
     private suspend fun bindData(result: List<com.example.network.models.Source>) {
         withContext(Dispatchers.Main) {
-            //afficher les données dans le recycler
             Log.d("Articles", result.toString())
         }
     }

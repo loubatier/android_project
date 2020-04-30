@@ -3,15 +3,16 @@ package com.example.news.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ShareCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.network.models.Article
 import com.example.network.repositories.Articlepository
 import com.example.news.R
 import com.example.news.adapters.ArticleAdapter
@@ -85,18 +86,30 @@ class ArticlesFragment : Fragment() {
         }
     }
 
-    private suspend fun bindData(result: List<com.example.network.models.Article>) {
+    private suspend fun bindData(result: List<Article>) {
         withContext(Dispatchers.Main) {
-            //afficher les données dans le recycler
-
-            Log.d("Articles $query", result.toString())
 
             recyclerView = activity!!.findViewById<RecyclerView>(R.id.articles_recycler_view)
 
-            adapter = ArticleAdapter(result) {
-                val intent = Intent(android.content.Intent.ACTION_VIEW)
-                intent.data = Uri.parse(it.url)
-                startActivity(intent)
+            adapter = ArticleAdapter(result) { item, share ->
+
+                if (share) {
+
+                    ShareCompat.IntentBuilder.from(activity!!)
+                        .setType("text/plain")
+                        .setChooserTitle("Share URL")
+                        .setText(item.url)
+                        .startChooser();
+
+                } else {
+
+                    val intent = Intent(android.content.Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(item.url)
+                    startActivity(intent)
+
+                }
+
+
             }
 
             recyclerView.layoutManager = LinearLayoutManager(context)

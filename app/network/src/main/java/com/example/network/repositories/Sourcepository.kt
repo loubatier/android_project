@@ -1,7 +1,6 @@
 package com.example.network.repositories
 
 import android.os.Build
-import com.example.network.models.Article
 import com.example.network.models.Source
 import com.example.network.services.SourceService
 import okhttp3.HttpUrl
